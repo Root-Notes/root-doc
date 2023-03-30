@@ -19,7 +19,8 @@
         "typescript": "^5.0.2"
     },
     "scripts": {
-        "rollup": "rollup -c --bundleConfigAsCjs"
+        "rollup": "rollup -c --bundleConfigAsCjs",
+        "dev": "rollup -c -w --bundleConfigAsCjs"
     },
     "main": "dist/cjs/index.js",
     "module": "dist/esm/index.js",
