@@ -27,7 +27,7 @@
     "files": [
         "dist"
     ],
-    "types": "dist/index.d.ts",
+    "types": "dist/esm/types/index.d.ts",
     "dependencies": {
         "@types/lodash": "^4.14.192",
         "lodash": "^4.17.21"
