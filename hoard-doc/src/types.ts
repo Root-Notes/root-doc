@@ -30,6 +30,8 @@ export interface Source {
     supertype: "source";
     type: string;
     condition?: ParseableFunction | DataItem;
+    renderer: Renderables[];
+    root: DataItem;
 }
 
 export interface Field extends Element {
@@ -52,6 +54,13 @@ export interface TextField extends Field {
     placeholder: DataItem;
 }
 
+// Source Types
+export interface ArraySource extends Source {
+    type: "array";
+    array: DataItem;
+}
+
 // Groups
 export type Elements = GroupElement | TextElement | TextField;
-export type Renderables = Elements;
+export type Sources = ArraySource;
+export type Renderables = Elements | Sources;
