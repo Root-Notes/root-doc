@@ -1,25 +1,58 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { HoardDoc } from "hoard-doc";
+import { Data, HoardDoc, Renderables } from "hoard-doc";
+
+const TEST_DOC_1: Renderables[] = [
+    {
+        supertype: "element",
+        type: "text",
+        content: "Test",
+    },
+];
+
+const TEST_DOC_2: Renderables[] = [
+    {
+        supertype: "element",
+        type: "text",
+        content: {
+            supertype: "data",
+            type: "data",
+            path: "test",
+        },
+    },
+];
+const TEST_DATA_2: Data = {
+    test: "EEEEEEEE",
+};
+
+const TEST_DOC_3: Renderables[] = [
+    {
+        supertype: "source",
+        type: "array",
+        renderer: [
+            {
+                supertype: "element",
+                type: "text",
+                content: {
+                    supertype: "data",
+                    type: "data",
+                    path: "",
+                },
+            },
+        ],
+        root: "index",
+        array: [1, 2, 3, 4],
+    },
+];
 
 function App() {
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
+            <HoardDoc
+                data={TEST_DATA_2}
+                onChange={(data) => console.log(data)}
+                document={TEST_DOC_3}
+            />
         </div>
     );
 }

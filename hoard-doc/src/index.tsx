@@ -16,3 +16,5 @@ export function HoardDoc(props: {
         </DocumentProvider>
     );
 }
+
+export { Data, Renderables };

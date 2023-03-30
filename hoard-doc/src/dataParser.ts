@@ -11,7 +11,7 @@ export function parseDataItem(data: Data, item: DataItem): any {
         switch (item.type) {
             case "data":
                 const path: string = parseDataItem(data, item.path);
-                return get(data, path);
+                return path === "" ? data : get(data, path);
         }
     }
 }

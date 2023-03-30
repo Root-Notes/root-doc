@@ -11,7 +11,7 @@ export function DocumentProvider(props: {
 }) {
     return (
         <DocumentContext.Provider value={[props.data, props.onChange]}>
-            {props.children};
+            {props.children}
         </DocumentContext.Provider>
     );
 }
