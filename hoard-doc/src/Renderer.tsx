@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useSource } from "./sources";
 import { parseDataItem, useDataItem } from "./dataParser";
 import { DocumentContext, DocumentProvider } from "./DocumentContext";
-import { get, set } from "lodash";
+import { get, isObject, isObjectLike, set } from "lodash";
 import { isDataItem } from "./guards";
 import { ComponentMap } from "./components";
 
@@ -16,6 +16,7 @@ function RenderElement(props: { item: Elements }) {
     );
 
     function processItem(item: Elements, data: Data) {
+        console.log(item, data);
         const proc: any = {};
         for (const k of Object.keys(item)) {
             if (RAW_KEYS.includes(k)) {
@@ -70,10 +71,11 @@ function RenderSource(props: { item: Sources }) {
         <div className="hoard-doc item source">
             {sourceData.map((v, i) => (
                 <DocumentProvider
-                    data={v}
+                    data={isObjectLike(v) ? v : { value: v }}
                     key={i}
                     onChange={(val) => {
-                        setData(set(data, `${root}[${i}]`, val));
+                        console.log(val);
+                        setData(set({ ...data }, `${root}[${i}]`, val));
                     }}
                 >
                     {props.item.renderer.map((r, j) => (

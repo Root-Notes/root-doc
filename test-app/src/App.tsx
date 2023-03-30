@@ -47,9 +47,17 @@ const TEST_DOC_3: Renderables[] = [
 
 const TD4: Renderables[] = [
     {
-        supertype: "element",
-        type: "textField",
-        field: "test",
+        supertype: "source",
+        type: "array",
+        renderer: [
+            {
+                supertype: "element",
+                type: "textField",
+                field: "test2",
+            },
+        ],
+        root: "index",
+        array: [1, 2, 3, 4],
     },
     {
         supertype: "element",
@@ -57,13 +65,13 @@ const TD4: Renderables[] = [
         content: {
             supertype: "data",
             type: "data",
-            path: "test",
+            path: "index",
         },
     },
 ];
 
 function App() {
-    const [d, setD] = useState<any>({ test: "" });
+    const [d, setD] = useState<any>({ index: [] });
     console.log(d);
     return (
         <div className="App">
