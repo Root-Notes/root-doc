@@ -19,7 +19,9 @@ export type ParseableFunction = {
     arguments: { [key: string]: DataItem };
 };
 
-export type ElementProps<T> = Omit<T, "type" | "supertype">;
+export type ElementProps<T> = Omit<T, "type" | "supertype" | "children"> & {
+    children?: JSX.Element | JSX.Element[];
+};
 export type FieldProps<T> = ElementProps<T> & {
     value: any;
     onChange: (value: any) => void;
@@ -47,7 +49,7 @@ export interface Field extends Element {
 // Element Types
 export interface GroupElement extends Element {
     type: "group";
-    children: Renderables;
+    children: Renderables[];
 }
 
 export interface TextElement extends Element {
