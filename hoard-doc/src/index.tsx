@@ -17,4 +17,4 @@ export function HoardDoc(props: {
     );
 }
 
-export { Data, Renderables };
+export type { Data, Renderables };

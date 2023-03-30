@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { Data, HoardDoc, Renderables } from "hoard-doc";
 
@@ -45,14 +45,29 @@ const TEST_DOC_3: Renderables[] = [
     },
 ];
 
+const TD4: Renderables[] = [
+    {
+        supertype: "element",
+        type: "textField",
+        field: "test",
+    },
+    {
+        supertype: "element",
+        type: "text",
+        content: {
+            supertype: "data",
+            type: "data",
+            path: "test",
+        },
+    },
+];
+
 function App() {
+    const [d, setD] = useState<any>({ test: "" });
+    console.log(d);
     return (
         <div className="App">
-            <HoardDoc
-                data={TEST_DATA_2}
-                onChange={(data) => console.log(data)}
-                document={TEST_DOC_3}
-            />
+            <HoardDoc data={d} onChange={setD} document={TD4} />
         </div>
     );
 }

@@ -59,7 +59,8 @@ export interface TextElement extends Element {
 
 // Field Types
 export interface TextField extends Field {
-    placeholder: DataItem;
+    type: "textField";
+    placeholder?: DataItem;
 }
 
 // Source Types

@@ -3,15 +3,17 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useSource } from "./sources";
 import { parseDataItem, useDataItem } from "./dataParser";
 import { DocumentContext, DocumentProvider } from "./DocumentContext";
-import { set } from "lodash";
+import { get, set } from "lodash";
 import { isDataItem } from "./guards";
 import { ComponentMap } from "./components";
 
 const RAW_KEYS = ["supertype", "type", "field", "condition"];
 
 function RenderElement(props: { item: Elements }) {
-    const [processed, setProcessed] = useState<any>({});
-    const [data] = useContext(DocumentContext);
+    const [data, setData] = useContext(DocumentContext);
+    const [processed, setProcessed] = useState<any>(
+        processItem(props.item, data)
+    );
 
     function processItem(item: Elements, data: Data) {
         const proc: any = {};
@@ -33,10 +35,24 @@ function RenderElement(props: { item: Elements }) {
                 }
             }
         }
-        setProcessed(proc);
+        if (Object.keys(item).includes("field")) {
+            proc["value"] = get(data, (item as any).field);
+            proc["onChange"] = (value: any) =>
+                setData(
+                    set(
+                        JSON.parse(JSON.stringify(data)),
+                        (item as any).field,
+                        value
+                    )
+                );
+        }
+        return proc;
     }
 
-    useEffect(() => processItem(props.item, data), [props.item, data]);
+    useEffect(
+        () => setProcessed(processItem(props.item, data)),
+        [props.item, data]
+    );
 
     const SelectedElement = useMemo(
         () => ComponentMap[props.item.type as any] ?? ((props: any) => <></>),

@@ -9,6 +9,7 @@ export function DocumentProvider(props: {
     data: Data;
     onChange: (data: Data) => void;
 }) {
+    console.log(props.data);
     return (
         <DocumentContext.Provider value={[props.data, props.onChange]}>
             {props.children}
