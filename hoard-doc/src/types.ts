@@ -19,6 +19,12 @@ export type ParseableFunction = {
     arguments: { [key: string]: DataItem };
 };
 
+export type ElementProps<T> = Omit<T, "type" | "supertype">;
+export type FieldProps<T> = ElementProps<T> & {
+    value: any;
+    onChange: (value: any) => void;
+};
+
 // Base element types
 export interface Element {
     supertype: "element";
