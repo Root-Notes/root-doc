@@ -10,6 +10,16 @@ import { ComponentMap } from "./components";
 const RAW_KEYS = ["supertype", "type", "field", "condition"];
 
 function RenderElement(props: { item: Elements }) {
+    const { data, form, onFormChange } = useContext(DocumentContext);
+    const processedProps = useMemo(() => {
+        const result: any = {};
+        for (const key of Object.keys(props.item)) {
+            if (RAW_KEYS.includes(key)) {
+                result[key] = (props.item as any)[key];
+            }
+        }
+    }, [props.item, data, form]);
+
     return <></>;
 }
 
