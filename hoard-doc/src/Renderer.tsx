@@ -10,81 +10,11 @@ import { ComponentMap } from "./components";
 const RAW_KEYS = ["supertype", "type", "field", "condition"];
 
 function RenderElement(props: { item: Elements }) {
-    const [data, setData] = useContext(DocumentContext);
-    const [processed, setProcessed] = useState<any>(
-        processItem(props.item, data)
-    );
-
-    function processItem(item: Elements, data: Data) {
-        console.log(item, data);
-        const proc: any = {};
-        for (const k of Object.keys(item)) {
-            if (RAW_KEYS.includes(k)) {
-                proc[k] = item[k as keyof Elements];
-            } else if (k === "children") {
-                proc[k] = (
-                    item[k as keyof Elements] as unknown as Renderables[]
-                ).map((v, i) => <Renderer item={v} key={i} />);
-            } else {
-                if (isDataItem(item[k as keyof Elements])) {
-                    proc[k] = parseDataItem(
-                        data,
-                        item[k as keyof Elements] as DataItem
-                    );
-                } else {
-                    proc[k] = item[k as keyof Elements];
-                }
-            }
-        }
-        if (Object.keys(item).includes("field")) {
-            proc["value"] = get(data, (item as any).field);
-            proc["onChange"] = (value: any) =>
-                setData(
-                    set(
-                        JSON.parse(JSON.stringify(data)),
-                        (item as any).field,
-                        value
-                    )
-                );
-        }
-        return proc;
-    }
-
-    useEffect(
-        () => setProcessed(processItem(props.item, data)),
-        [props.item, data]
-    );
-
-    const SelectedElement = useMemo(
-        () => ComponentMap[props.item.type as any] ?? ((props: any) => <></>),
-        [props.item]
-    );
-
-    return <SelectedElement {...processed} />;
+    return <></>;
 }
 
 function RenderSource(props: { item: Sources }) {
-    const [data, setData] = useContext(DocumentContext);
-    const sourceData = useSource(props.item);
-    const root = useDataItem(props.item.root);
-    return (
-        <div className="hoard-doc item source">
-            {sourceData.map((v, i) => (
-                <DocumentProvider
-                    data={isObjectLike(v) ? v : { value: v }}
-                    key={i}
-                    onChange={(val) => {
-                        console.log(val);
-                        setData(set({ ...data }, `${root}[${i}]`, val));
-                    }}
-                >
-                    {props.item.renderer.map((r, j) => (
-                        <Renderer item={r} key={j} />
-                    ))}
-                </DocumentProvider>
-            ))}
-        </div>
-    );
+    return <></>;
 }
 
 export function Renderer(props: { item: Renderables }) {
