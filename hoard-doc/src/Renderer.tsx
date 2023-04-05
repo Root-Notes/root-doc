@@ -32,7 +32,9 @@ function RenderElement(props: { item: Elements }) {
         if (Object.keys(result).includes("field")) {
             result.value = get(form, result.field);
             result.onChange = (value: any) => {
-                onFormChange(set({ ...form }, result.field, value));
+                const newVal = set(cloneDeep(form), result.field, value);
+                console.log(newVal);
+                onFormChange(newVal);
             };
         }
 
