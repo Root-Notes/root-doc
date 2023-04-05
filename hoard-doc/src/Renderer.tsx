@@ -16,11 +16,35 @@ function RenderElement(props: { item: Elements }) {
         for (const key of Object.keys(props.item)) {
             if (RAW_KEYS.includes(key)) {
                 result[key] = (props.item as any)[key];
+            } else {
+                if (isDataItem((props.item as any)[key])) {
+                    result[key] = parseDataItem(
+                        data,
+                        form,
+                        (props.item as any)[key]
+                    );
+                } else {
+                    result[key] = (props.item as any)[key];
+                }
             }
         }
+
+        if (Object.keys(result).includes("field")) {
+            result.value = get(form, result.field);
+            result.onChange = (value: any) => {
+                onFormChange(set({ ...form }, result.field, value));
+            };
+        }
+
+        return result;
     }, [props.item, data, form]);
 
-    return <></>;
+    const MappedElement = useMemo(
+        () => ComponentMap[props.item.type] ?? ((props: any) => <></>),
+        [props.item.type]
+    );
+
+    return <MappedElement {...processedProps} />;
 }
 
 function RenderSource(props: { item: Sources }) {
