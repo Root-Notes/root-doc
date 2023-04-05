@@ -1,88 +1,78 @@
-import { Data, DataItem, Elements, Renderables, Sources } from "./types";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { Elements, Renderables, Sources } from "./types";
+import React, { useContext, useMemo } from "react";
 import { useSource } from "./sources";
 import { parseDataItem, useDataItem } from "./dataParser";
 import { DocumentContext, DocumentProvider } from "./DocumentContext";
-import { get, isObject, isObjectLike, set } from "lodash";
+import { cloneDeep, get, set } from "lodash";
 import { isDataItem } from "./guards";
 import { ComponentMap } from "./components";
 
 const RAW_KEYS = ["supertype", "type", "field", "condition"];
 
 function RenderElement(props: { item: Elements }) {
-    const [data, setData] = useContext(DocumentContext);
-    const [processed, setProcessed] = useState<any>(
-        processItem(props.item, data)
-    );
-
-    function processItem(item: Elements, data: Data) {
-        console.log(item, data);
-        const proc: any = {};
-        for (const k of Object.keys(item)) {
-            if (RAW_KEYS.includes(k)) {
-                proc[k] = item[k as keyof Elements];
-            } else if (k === "children") {
-                proc[k] = (
-                    item[k as keyof Elements] as unknown as Renderables[]
-                ).map((v, i) => <Renderer item={v} key={i} />);
+    const { data, form, onFormChange } = useContext(DocumentContext);
+    const processedProps = useMemo(() => {
+        const result: any = {};
+        for (const key of Object.keys(props.item)) {
+            if (RAW_KEYS.includes(key)) {
+                result[key] = (props.item as any)[key];
             } else {
-                if (isDataItem(item[k as keyof Elements])) {
-                    proc[k] = parseDataItem(
+                if (isDataItem((props.item as any)[key])) {
+                    result[key] = parseDataItem(
                         data,
-                        item[k as keyof Elements] as DataItem
+                        form,
+                        (props.item as any)[key]
                     );
                 } else {
-                    proc[k] = item[k as keyof Elements];
+                    result[key] = (props.item as any)[key];
                 }
             }
         }
-        if (Object.keys(item).includes("field")) {
-            proc["value"] = get(data, (item as any).field);
-            proc["onChange"] = (value: any) =>
-                setData(
-                    set(
-                        JSON.parse(JSON.stringify(data)),
-                        (item as any).field,
-                        value
-                    )
-                );
+
+        if (Object.keys(result).includes("field")) {
+            result.value = get(form, result.field);
+            result.onChange = (value: any) => {
+                const newVal = set(cloneDeep(form), result.field, value);
+                onFormChange(newVal);
+            };
         }
-        return proc;
-    }
 
-    useEffect(
-        () => setProcessed(processItem(props.item, data)),
-        [props.item, data]
+        return result;
+    }, [props.item, data, form]);
+
+    const MappedElement = useMemo(
+        () => ComponentMap[props.item.type] ?? ((props: any) => <></>),
+        [props.item.type]
     );
 
-    const SelectedElement = useMemo(
-        () => ComponentMap[props.item.type as any] ?? ((props: any) => <></>),
-        [props.item]
-    );
-
-    return <SelectedElement {...processed} />;
+    return <MappedElement {...processedProps} />;
 }
 
 function RenderSource(props: { item: Sources }) {
-    const [data, setData] = useContext(DocumentContext);
-    const sourceData = useSource(props.item);
+    const source = useSource(props.item);
     const root = useDataItem(props.item.root);
+    const { form, onFormChange } = useContext(DocumentContext);
     return (
-        <div className="hoard-doc item source">
-            {sourceData.map((v, i) => (
-                <DocumentProvider
-                    data={isObjectLike(v) ? v : { value: v }}
-                    key={i}
-                    onChange={(val) => {
-                        console.log(val);
-                        setData(set({ ...data }, `${root}[${i}]`, val));
-                    }}
-                >
-                    {props.item.renderer.map((r, j) => (
-                        <Renderer item={r} key={j} />
-                    ))}
-                </DocumentProvider>
-            ))}
+        <div className="hoard-doc source">
+            {source.map((dataItem, index) => {
+                return (
+                    <DocumentProvider
+                        data={dataItem}
+                        form={get(cloneDeep(form), `${root}[${index}]`) ?? {}}
+                        onChange={(data) => {
+                            const newForm = cloneDeep(form);
+                            onFormChange(
+                                set(newForm, `${root}[${index}]`, data)
+                            );
+                        }}
+                        key={index}
+                    >
+                        {props.item.renderer.map((r, k) => (
+                            <Renderer item={r} key={k} />
+                        ))}
+                    </DocumentProvider>
+                );
+            })}
         </div>
     );
 }

@@ -1,5 +1,9 @@
 export type Data = { [key: string]: any };
-export type DocumentContextType = [Data, (data: Data) => void];
+export type DocumentContextType = {
+    data: Data;
+    form: Data;
+    onFormChange: (data: Data) => void;
+};
 
 export type DataItem_Literal =
     | string
@@ -7,11 +11,17 @@ export type DataItem_Literal =
     | boolean
     | null
     | DataItem_Literal[];
-export type DataItem_Complex = {
-    supertype: "data";
-    type: "data";
-    path: string;
-};
+export type DataItem_Complex =
+    | {
+          supertype: "data";
+          type: "data";
+          path: string;
+      }
+    | {
+          supertype: "data";
+          type: "form";
+          field: string;
+      };
 export type DataItem = DataItem_Literal | DataItem_Complex;
 
 export type ParseableFunction = {
