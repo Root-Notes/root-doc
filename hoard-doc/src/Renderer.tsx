@@ -1,9 +1,9 @@
-import { Data, DataItem, Elements, Renderables, Sources } from "./types";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { Elements, Renderables, Sources } from "./types";
+import React, { useContext, useMemo } from "react";
 import { useSource } from "./sources";
 import { parseDataItem, useDataItem } from "./dataParser";
 import { DocumentContext, DocumentProvider } from "./DocumentContext";
-import { get, isObject, isObjectLike, set } from "lodash";
+import { cloneDeep, get, set } from "lodash";
 import { isDataItem } from "./guards";
 import { ComponentMap } from "./components";
 
@@ -48,7 +48,32 @@ function RenderElement(props: { item: Elements }) {
 }
 
 function RenderSource(props: { item: Sources }) {
-    return <></>;
+    const source = useSource(props.item);
+    const root = useDataItem(props.item.root);
+    const { form, onFormChange } = useContext(DocumentContext);
+    return (
+        <div className="hoard-doc source">
+            {source.map((dataItem, index) => {
+                return (
+                    <DocumentProvider
+                        data={dataItem}
+                        form={form}
+                        onChange={(data) => {
+                            const newForm = cloneDeep(form);
+                            onFormChange(
+                                set(newForm, `${root}[${index}]`, data)
+                            );
+                        }}
+                        key={index}
+                    >
+                        {props.item.renderer.map((r, k) => (
+                            <Renderer item={r} key={k} />
+                        ))}
+                    </DocumentProvider>
+                );
+            })}
+        </div>
+    );
 }
 
 export function Renderer(props: { item: Renderables }) {
