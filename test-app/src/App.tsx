@@ -56,26 +56,26 @@ const TD4: Renderables[] = [
                 field: "test2",
             },
         ],
-        root: "index",
         array: [1, 2, 3, 4],
+        root: "output",
     },
     {
         supertype: "element",
         type: "text",
         content: {
             supertype: "data",
-            type: "data",
-            path: "index",
+            type: "form",
+            field: "output",
         },
     },
 ];
 
 function App() {
-    const [d, setD] = useState<any>({ index: [] });
+    const [d, setD] = useState<any>({ output: [] });
     console.log(d);
     return (
         <div className="App">
-            <HoardDoc data={d} onChange={setD} document={TD4} />
+            <HoardDoc document={TD4} data={{}} form={d} onChange={setD} />
         </div>
     );
 }
