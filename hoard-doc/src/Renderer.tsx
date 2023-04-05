@@ -33,7 +33,6 @@ function RenderElement(props: { item: Elements }) {
             result.value = get(form, result.field);
             result.onChange = (value: any) => {
                 const newVal = set(cloneDeep(form), result.field, value);
-                console.log(newVal);
                 onFormChange(newVal);
             };
         }
@@ -59,7 +58,7 @@ function RenderSource(props: { item: Sources }) {
                 return (
                     <DocumentProvider
                         data={dataItem}
-                        form={form}
+                        form={get(cloneDeep(form), `${root}[${index}]`) ?? {}}
                         onChange={(data) => {
                             const newForm = cloneDeep(form);
                             onFormChange(

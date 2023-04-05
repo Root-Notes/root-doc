@@ -72,7 +72,6 @@ const TD4: Renderables[] = [
 
 function App() {
     const [d, setD] = useState<any>({ output: [] });
-    console.log(d);
     return (
         <div className="App">
             <HoardDoc document={TD4} data={{}} form={d} onChange={setD} />

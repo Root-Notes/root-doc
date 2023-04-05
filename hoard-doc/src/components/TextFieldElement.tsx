@@ -8,7 +8,6 @@ export function TextFieldRenderer(props: FieldProps<TextField>): JSX.Element {
             value={props.value ?? ""}
             onChange={(e) => {
                 props.onChange(e.target.value);
-                console.log(e.target.value);
             }}
             className="hoard-doc element text-field"
         />
