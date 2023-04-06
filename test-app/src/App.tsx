@@ -54,6 +54,16 @@ const TD4: Renderables[] = [
                 supertype: "element",
                 type: "textField",
                 field: "test2",
+                condition: {
+                    code: "(opts) => opts.val !== 3",
+                    arguments: {
+                        val: {
+                            supertype: "data",
+                            type: "data",
+                            path: "",
+                        },
+                    },
+                },
             },
         ],
         array: [1, 2, 3, 4],

@@ -1,13 +1,40 @@
-import { Elements, Renderables, Sources } from "./types";
+import {
+    DataItem,
+    Elements,
+    ParseableFunction,
+    Renderables,
+    Sources,
+} from "./types";
 import React, { useContext, useMemo } from "react";
 import { useSource } from "./sources";
-import { parseDataItem, useDataItem } from "./dataParser";
+import {
+    parseDataItem,
+    parseFunction,
+    useDataItem,
+    useParsedFunction,
+} from "./dataParser";
 import { DocumentContext, DocumentProvider } from "./DocumentContext";
 import { cloneDeep, get, set } from "lodash";
-import { isDataItem } from "./guards";
+import { isDataItem, isParseableFunction } from "./guards";
 import { ComponentMap } from "./components";
 
 const RAW_KEYS = ["supertype", "type", "field", "condition"];
+
+function useCondition(
+    condition: ParseableFunction | DataItem | undefined
+): boolean {
+    const { data, form } = useContext(DocumentContext);
+    const result: boolean = useMemo(() => {
+        if (isParseableFunction(condition)) {
+            return parseFunction<boolean>(condition, data, form);
+        }
+        if (isDataItem(condition)) {
+            return parseDataItem(data, form, condition);
+        }
+        return true;
+    }, [condition, data, form]);
+    return result;
+}
 
 function RenderElement(props: { item: Elements }) {
     const { data, form, onFormChange } = useContext(DocumentContext);
@@ -45,7 +72,9 @@ function RenderElement(props: { item: Elements }) {
         [props.item.type]
     );
 
-    return <MappedElement {...processedProps} />;
+    const doRender = useCondition(props.item.condition);
+
+    return doRender ? <MappedElement {...processedProps} /> : null;
 }
 
 function RenderSource(props: { item: Sources }) {
