@@ -13,11 +13,13 @@ export default [
                 file: packageJson.main,
                 format: "cjs",
                 sourcemap: true,
+                name: "main",
             },
             {
                 file: packageJson.module,
                 format: "esm",
                 sourcemap: true,
+                name: "module",
             },
         ],
         plugins: [
@@ -26,7 +28,7 @@ export default [
             typescript({ tsconfig: "./tsconfig.json" }),
         ],
     },
-    {
+    /*{
         input: "dist/esm/types/index.d.ts",
         output: [{ file: "dist/index.d.ts", format: "esm" }],
         plugins: [
@@ -35,5 +37,5 @@ export default [
             commonjs(),
             typescript({ tsconfig: "./tsconfig.json" }),
         ],
-    },
+    },*/
 ];
