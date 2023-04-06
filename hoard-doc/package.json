@@ -3,7 +3,10 @@
     "name": "hoard-doc",
     "version": "0.1.0",
     "description": "Centralized modular document system",
-    "repository": "https://github.com/HoardTools/HoardDoc",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/HoardTools/HoardDoc.git"
+    },
     "author": "Dax Harris",
     "license": "GPL-3.0",
     "private": false,
