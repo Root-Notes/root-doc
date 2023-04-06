@@ -1,6 +1,6 @@
 {
     "type": "module",
-    "name": "hoard-doc",
+    "name": "@hoard-tools/hoard-doc",
     "version": "0.1.0",
     "description": "Centralized modular document system",
     "repository": {
