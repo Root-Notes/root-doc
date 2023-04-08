@@ -7,16 +7,10 @@ import {
 } from "./types";
 import React, { useContext, useMemo } from "react";
 import { useSource } from "./sources";
-import {
-    parseDataItem,
-    parseFunction,
-    useDataItem,
-    useParsedFunction,
-} from "./dataParser";
+import { parseDataItem, parseFunction, useDataItem } from "./dataParser";
 import { DocumentContext, DocumentProvider } from "./DocumentContext";
 import { cloneDeep, get, set } from "lodash";
 import { isDataItem, isParseableFunction } from "./guards";
-import { ComponentMap } from "./components";
 
 const RAW_KEYS = ["supertype", "type", "field", "condition"];
 
@@ -37,7 +31,7 @@ function useCondition(
 }
 
 function RenderElement(props: { item: Elements }) {
-    const { data, form, onFormChange } = useContext(DocumentContext);
+    const { data, form, onFormChange, kit } = useContext(DocumentContext);
     const processedProps = useMemo(() => {
         const result: any = {};
         for (const key of Object.keys(props.item)) {
@@ -68,7 +62,7 @@ function RenderElement(props: { item: Elements }) {
     }, [props.item, data, form]);
 
     const MappedElement = useMemo(
-        () => ComponentMap[props.item.type] ?? ((props: any) => <></>),
+        () => kit[props.item.type] ?? ((props: any) => <></>),
         [props.item.type]
     );
 
@@ -80,7 +74,7 @@ function RenderElement(props: { item: Elements }) {
 function RenderSource(props: { item: Sources }) {
     const source = useSource(props.item);
     const root = useDataItem(props.item.root);
-    const { form, onFormChange } = useContext(DocumentContext);
+    const { form, onFormChange, kit } = useContext(DocumentContext);
     return (
         <div className="hoard-doc source">
             {source.map((dataItem, index) => {
@@ -95,6 +89,7 @@ function RenderSource(props: { item: Sources }) {
                             );
                         }}
                         key={index}
+                        kit={kit}
                     >
                         {props.item.renderer.map((r, k) => (
                             <Renderer item={r} key={k} />

@@ -1,5 +1,5 @@
 import { createContext, ReactNode } from "react";
-import { DocumentContextType, Data } from "./types";
+import { DocumentContextType, Data, RenderKit } from "./types";
 import React from "react";
 
 export const DocumentContext = createContext<DocumentContextType>(null as any);
@@ -9,6 +9,7 @@ export function DocumentProvider(props: {
     data: Data;
     form: Data;
     onChange: (data: Data) => void;
+    kit: RenderKit;
 }) {
     return (
         <DocumentContext.Provider
@@ -16,6 +17,7 @@ export function DocumentProvider(props: {
                 data: props.data,
                 form: props.form,
                 onFormChange: props.onChange,
+                kit: props.kit,
             }}
         >
             {props.children}

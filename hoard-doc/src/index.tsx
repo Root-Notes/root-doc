@@ -1,9 +1,10 @@
-import { Data, Renderables } from "./types";
+import { Data, RenderKit, Renderables } from "./types";
 import React from "react";
 import { DocumentProvider } from "./DocumentContext";
 import { Renderer } from "./Renderer";
 
 export function HoardDoc(props: {
+    kit: RenderKit;
     document: Renderables[];
     data: Data;
     form?: Data;
@@ -14,6 +15,7 @@ export function HoardDoc(props: {
             data={props.data}
             onChange={props.onChange ?? (() => {})}
             form={props.form ?? {}}
+            kit={props.kit}
         >
             {props.document.map((v, i) => (
                 <Renderer item={v} key={i} />

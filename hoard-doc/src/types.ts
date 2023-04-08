@@ -1,8 +1,14 @@
+export type RenderKeys = Pick<Elements, "type">;
+export type RenderKit = Partial<{
+    [property in RenderKeys["type"]]: (props: ElementProps<any>) => JSX.Element;
+}>;
+
 export type Data = { [key: string]: any };
 export type DocumentContextType = {
     data: Data;
     form: Data;
     onFormChange: (data: Data) => void;
+    kit: RenderKit;
 };
 
 export type DataItem_Literal =
