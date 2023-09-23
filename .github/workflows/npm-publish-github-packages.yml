@@ -4,6 +4,7 @@
 name: Node.js Package
 
 on:
+    workflow_dispatch:
     release:
         types: [published]
 
@@ -18,7 +19,7 @@ jobs:
             - run: |
                   npm install
                   npm run rollup
-              working-directory: ./hoard-doc
+              working-directory: ./root-doc
 
     publish-gpr:
         needs: build
