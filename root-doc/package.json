@@ -1,7 +1,7 @@
 {
     "type": "module",
     "name": "@root-notes/root-doc",
-    "version": "0.2.0",
+    "version": "1.0.0",
     "description": "Up-to-date fork of HoardDoc for RootNote-specific purposes",
     "repository": {
         "type": "git",

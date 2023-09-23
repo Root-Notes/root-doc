@@ -1,2 +1,2 @@
-# HoardDoc
-Centralized modular document system
+# Root-Doc
+Up-to-date fork of HoardDoc for RootNote-specific purposes
