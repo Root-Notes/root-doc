@@ -1,11 +1,11 @@
 {
     "type": "module",
-    "name": "@hoard-tools/hoard-doc",
+    "name": "@root-notes/root-doc",
     "version": "0.2.0",
-    "description": "Centralized modular document system",
+    "description": "Up-to-date fork of HoardDoc for RootNote-specific purposes",
     "repository": {
         "type": "git",
-        "url": "https://github.com/HoardTools/HoardDoc.git"
+        "url": "https://github.com/Root-Notes/root-doc"
     },
     "author": "Dax Harris",
     "license": "GPL-3.0",
