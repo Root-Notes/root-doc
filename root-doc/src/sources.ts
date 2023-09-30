@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { parseDataItem } from "./dataParser";
+import { parseDataItem, parseFunction } from "./dataParser";
 import { DocumentContext } from "./DocumentContext";
-import { Data, Sources } from "./types";
+import { Data, Sources } from "./spec/types";
 
 export function useSource(item: Sources) {
     const { data, form } = useContext(DocumentContext);
@@ -12,6 +12,9 @@ export function useSource(item: Sources) {
         switch (item.type) {
             case "array":
                 setIter(parseDataItem(data, form, item.array));
+                break;
+            case "function":
+                setIter(parseFunction(item.function, data, form) ?? []);
                 break;
         }
     }, [form, data, item]);

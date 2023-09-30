@@ -1,10 +1,5 @@
-import {
-    DataItem,
-    Elements,
-    ParseableFunction,
-    Renderables,
-    Sources,
-} from "./types";
+import { DataItem, ParseableFunction } from "./types";
+import { Elements, Renderables, Sources } from "./spec/types";
 import React, { useContext, useMemo } from "react";
 import { useSource } from "./sources";
 import { parseDataItem, parseFunction, useDataItem } from "./dataParser";
