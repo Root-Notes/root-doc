@@ -23,7 +23,7 @@
     },
     "scripts": {
         "rollup": "rollup -c --bundleConfigAsCjs",
-        "doc": "ts-json-schema-generator -f tsconfig.doc.json --path 'src/spec/types.ts' --type 'Renderables' -o 'doc/config.schema.json' --minify"
+        "doc": "ts-json-schema-generator -f tsconfig.doc.json --path 'src/spec/types.ts' --type 'Renderables' -o 'doc/renderables.schema.json' --minify"
     },
     "main": "dist/cjs/index.js",
     "module": "dist/esm/index.js",
