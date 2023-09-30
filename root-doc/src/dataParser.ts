@@ -2,7 +2,8 @@ import { get } from "lodash";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { DocumentContext } from "./DocumentContext";
 import { isSimpleDataItem } from "./guards";
-import { Data, DataItem, ParseableFunction } from "./types";
+import { DataItem, ParseableFunction } from "./types";
+import { Data } from "./spec/types";
 
 export function parseDataItem(data: Data, formData: Data, item: DataItem): any {
     if (isSimpleDataItem(item)) {

@@ -1,5 +1,5 @@
 import { createContext, ReactNode } from "react";
-import { DocumentContextType, Data, RenderKit } from "./types";
+import { DocumentContextType, Data, RenderKit } from "./spec/types";
 import React from "react";
 
 export const DocumentContext = createContext<DocumentContextType>(null as any);
