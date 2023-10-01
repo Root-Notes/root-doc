@@ -53,7 +53,7 @@ export interface Accordion extends Element {
 
 export interface ScrollArea extends Element {
     type: "scrollArea";
-    maxHeight: number;
+    maxHeight?: number;
     children?: Renderables[];
 }
 
@@ -147,7 +147,14 @@ export interface FunctionSource extends Source {
 
 // Aggregate
 
-export type Structural = Box | Column | Row | Grid | Accordion | ScrollArea;
+export type Structural =
+    | Box
+    | Column
+    | Row
+    | Grid
+    | Accordion
+    | ScrollArea
+    | Paper;
 export type Decoration = Header | Divider | Alert | TextBlock | LabelledGroup;
 export type Fields = BooleanField | TextField | NumberField;
 export type Sources = ArraySource | FunctionSource;
@@ -156,9 +163,7 @@ export type Renderables = Sources | Elements;
 
 // Utility types
 
-export type ElementProps<T> = Omit<T, "type" | "supertype" | "children"> & {
-    children?: JSX.Element | JSX.Element[];
-};
+export type ElementProps<T> = Omit<T, "type" | "supertype">;
 export type FieldProps<T> = ElementProps<T> & {
     value: any;
     onChange: (value: any) => void;

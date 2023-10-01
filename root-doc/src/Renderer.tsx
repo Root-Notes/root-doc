@@ -103,3 +103,13 @@ export function Renderer(props: { item: Renderables }) {
         return <RenderSource item={props.item} />;
     }
 }
+
+export function UtilityChildRenderer({ items }: { items?: Renderables[] }) {
+    return (
+        <>
+            {(items ?? []).map((v, i) => (
+                <Renderer item={v} key={i} />
+            ))}
+        </>
+    );
+}

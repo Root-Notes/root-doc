@@ -1,7 +1,7 @@
 import { Data, RenderKit, Renderables } from "./spec/types";
 import React from "react";
 import { DocumentProvider } from "./DocumentContext";
-import { Renderer } from "./Renderer";
+import { Renderer, UtilityChildRenderer } from "./Renderer";
 
 export function RootDoc(props: {
     kit: RenderKit;
@@ -27,3 +27,5 @@ export function RootDoc(props: {
 }
 
 export type { Data, Renderables };
+export type * from "./spec/types";
+export { UtilityChildRenderer };
