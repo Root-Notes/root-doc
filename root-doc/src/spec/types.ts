@@ -101,7 +101,6 @@ export interface BooleanField extends Field {
     variant?: "switch" | "check";
     label?: DataItem;
     description?: DataItem;
-    icon?: IconDescriptor;
     required?: boolean;
 }
 
@@ -171,7 +170,7 @@ export type FieldProps<T> = ElementProps<T> & {
 
 export type RenderKeys = Pick<Elements, "type">;
 export type RenderKit = Partial<{
-    [property in RenderKeys["type"]]: (props: ElementProps<any>) => JSX.Element;
+    [property in RenderKeys["type"]]: (props: any) => JSX.Element;
 }>;
 
 export type Data = { [key: string]: any };
