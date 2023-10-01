@@ -61,7 +61,7 @@ export interface ScrollArea extends Element {
 
 export interface Header extends Element {
     type: "header";
-    size?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+    size?: 1 | 2 | 3 | 4 | 5 | 6;
     icon?: IconDescriptor;
     content?: DataItem;
 }
@@ -169,7 +169,7 @@ export type FieldProps<T> = ElementProps<T> & {
     onChange: (value: any) => void;
 };
 
-export type RenderKeys = Pick<Renderables, "type">;
+export type RenderKeys = Pick<Elements, "type">;
 export type RenderKit = Partial<{
     [property in RenderKeys["type"]]: (props: ElementProps<any>) => JSX.Element;
 }>;
